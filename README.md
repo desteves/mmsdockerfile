@@ -1,4 +1,8 @@
 # mmsdockerfile
-MongoDB Ops Manger Dockerfile (uses desteves/mongodb-release/ scripts)
+MongoDB Ops Manger Dockerfile
 
-See https://github.com/desteves/mongodb-release
+See https://github.com/desteves/mongodb-release for scripts that do the heavy lifting
+
+Docker repo: https://hub.docker.com/r/nullstring/mms
+
+Download as `docker pull nullstring/mms`
