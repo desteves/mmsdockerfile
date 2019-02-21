@@ -11,13 +11,6 @@ EXPOSE 8080
 
 ENV BOSH_INSTALL_TARGET /var/vcap/packages
 
-# for the global owner script...
-ENV properties.mms.user root
-ENV properties.mms.pwd  rootroot12345^
-ENV properties.mms.port 8080
-ENV properties.mms.fqdn localhost
-
-
 RUN   yum update -y
 RUN   yum install -y wget ruby
 
@@ -48,11 +41,15 @@ RUN   bash ctl.erb start
 # wait forever.....
 #RUN   sleep 5m
 
-# create global owner user
+# create global owner user, needs ruby 2.3 to make interpolation via bash easy
 RUN   wget https://raw.githubusercontent.com/desteves/mongodb-release/master/jobs/global_owner/templates/run.sh
-RUN   erb properties.mms.user=root properties.mms.pwd=rootroot12345^  properties.mms.port=8080 properties.mms.fqdn=localhost run.sh > run.sh2
-RUN   chmod +x run.sh2
-RUN   bash run.sh2
+RUN sed -i "s/USER=.*/USER=root/g" run.sh
+RUN sed -i "s/PASS=.*/PASS=rootroot12345^/g" run.sh
+RUN sed -i "s/FQDN=.*/FQDN=localhost/g" run.sh
+RUN sed -i "s/PORT=.*/PORT=8080/g" run.sh
+RUN sed -i "s/MMSG=.*/MMSG=root/g" run.sh
+RUN   chmod +x run.sh
+RUN   bash run.sh
 
 
 CMD ["/bin/bash"]
