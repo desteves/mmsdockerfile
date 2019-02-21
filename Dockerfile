@@ -12,7 +12,7 @@ EXPOSE 8080
 ENV BOSH_INSTALL_TARGET /var/vcap/packages
 
 RUN   yum update -y
-RUN   yum install -y wget ruby
+RUN   yum install -y wget 
 
 RUN mkdir -p ${BOSH_INSTALL_TARGET}
 RUN /usr/sbin/groupadd -r vcap
