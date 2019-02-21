@@ -29,31 +29,9 @@ RUN   mkdir -p ${BOSH_INSTALL_TARGET}/mongodb-mms-4.0.1
 RUN   wget https://s3.amazonaws.com/mongodb-mms-build-onprem/0dac6f313138aed7a06bcfd53e792b676c5b139d/mongodb-mms-4.0.8.50386.20190206T1708Z-1.x86_64.tar.gz
 RUN   tar xzf mongodb-mms-4.0.8.50386.20190206T1708Z-1.x86_64.tar.gz  --strip 1 --directory ${BOSH_INSTALL_TARGET}/mongodb-mms-4.0.1
 
-# run migration checks for mms
-RUN   curl -O https://raw.githubusercontent.com/desteves/mongodb-release/master/jobs/ops_manager/templates/pre-start.sh
-RUN   bash pre-start.sh
-
-# run mms
-RUN   wget https://raw.githubusercontent.com/desteves/mongodb-release/master/jobs/ops_manager/templates/ctl.erb
-RUN   chmod +x ctl.erb
-RUN   bash ctl.erb start
-
-# wait forever.....
-#RUN   sleep 5m
-
-# create global owner user, needs ruby 2.3 to make interpolation via bash easy
-RUN   wget https://raw.githubusercontent.com/desteves/mongodb-release/master/jobs/global_owner/templates/run.sh
-RUN sed -i "s/USER=.*/USER=root/g" run.sh
-RUN sed -i "s/PASS=.*/PASS=rootroot12345^/g" run.sh
-RUN sed -i "s/FQDN=.*/FQDN=localhost/g" run.sh
-RUN sed -i "s/PORT=.*/PORT=8080/g" run.sh
-RUN sed -i "s/MMSG=.*/MMSG=root/g" run.sh
-RUN   chmod +x run.sh
-RUN   bash run.sh
-
-
-CMD ["/bin/bash"]
-
+#CMD ["/bin/bash"]
+COPY docker-entrypoint.sh .
+ENTRYPOINT ["bash", "docker-entrypoint.sh"]
 
 
 
