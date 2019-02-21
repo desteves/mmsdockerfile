@@ -19,7 +19,11 @@ ENV properties.mms.fqdn localhost
 
 
 RUN   yum update -y
-RUN   yum install -y wget 
+RUN   yum install -y wget ruby
+
+RUN mkdir -p ${BOSH_INSTALL_TARGET}
+RUN /usr/sbin/groupadd -r vcap
+RUN /usr/sbin/useradd -M -r -g vcap -d ${BOSH_INSTALL_TARGET} -s /bin/false  -c vcap vcap > /dev/null 2>&1
 
 # install mongodb
 RUN   mkdir -p ${BOSH_INSTALL_TARGET}/mongodb-4.0.1
@@ -38,7 +42,6 @@ RUN   bash pre-start.sh
 
 # run mms
 RUN   wget https://raw.githubusercontent.com/desteves/mongodb-release/master/jobs/ops_manager/templates/ctl.erb
-RUN   yum install -y ruby
 RUN   chmod +x ctl.erb
 RUN   bash ctl.erb start
 
@@ -47,7 +50,7 @@ RUN   bash ctl.erb start
 
 # create global owner user
 RUN   wget https://raw.githubusercontent.com/desteves/mongodb-release/master/jobs/global_owner/templates/run.sh
-RUN   erb run.sh > run.sh2
+RUN   erb properties.mms.user=root properties.mms.pwd=rootroot12345^  properties.mms.port=8080 properties.mms.fqdn=localhost run.sh > run.sh2
 RUN   chmod +x run.sh2
 RUN   bash run.sh2
 
