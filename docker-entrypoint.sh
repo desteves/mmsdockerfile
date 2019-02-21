@@ -12,7 +12,7 @@ bash ctl.erb start
 # wait forever.....
 
 
-# create global owner user, needs ruby 2.3 to make interpolation via bash easy
+# create global owner user...TODO
 wget https://raw.githubusercontent.com/desteves/mongodb-release/master/jobs/global_owner/templates/run.sh
 sed -i "s/USER=.*/USER=root/g" run.sh
 sed -i "s/PASS=.*/PASS=rootroot12345^/g" run.sh
