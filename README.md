@@ -1,5 +1,7 @@
 # MongoDB Ops Manger Dockerfile
 
+[![Git](https://app.soluble.cloud/api/v1/public/badges/c978f519-e89b-4c83-87f0-e750c3150e9c.svg?orgId=679096383598)](https://app.soluble.cloud/repos/details/github.com/desteves/mmsdockerfile?orgId=679096383598)  
+
 Runs MongoDB Ops Manager 4.0.x in a container. 
 Tested on Kubernetes via minkube and macOS Docker version 18.09.2, build 6247962
 
